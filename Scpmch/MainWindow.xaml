@@ -1,0 +1,22 @@
+﻿<Window x:Class="Scpmch.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Scpmch"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="478">
+    <Grid>
+        <Label x:Name="AETitle" Content="AETitle：" HorizontalAlignment="Left" Margin="17,10,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="tb_AET" HorizontalAlignment="Left" Height="23" Margin="83.587,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="Scp"/>
+        <Label x:Name="Port" Content="Port：" HorizontalAlignment="Left" Margin="251,10,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="tb_Port" HorizontalAlignment="Left" Height="23" Margin="326,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="2122"/>
+        <Label x:Name="SaveLocation" Content="Storage Location :" HorizontalAlignment="Left" Margin="17,48,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="tb_SaveLocation" HorizontalAlignment="Left" Height="23" Margin="150.587,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="295.413" MouseDoubleClick="tb_SaveLocation_MouseDoubleClick" Text="G:\Temp\ScpDataPath" />
+        <Button x:Name="btn_start" Content="开始监听" HorizontalAlignment="Left" Margin="17,81.813,0,0" VerticalAlignment="Top" Width="75" Click="btn_start_Click"/>
+        <Button x:Name="btn_clear" Content="清空日志" HorizontalAlignment="Left" Margin="371,81.813,0,0" VerticalAlignment="Top" Width="75" Click="btn_clear_Click"/>
+        <TextBox x:Name="tb_log" HorizontalAlignment="Left" Height="179" Margin="17,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="429"/>
+        <Button x:Name="btn_connect" Content="连接测试" HorizontalAlignment="Left" Margin="192,82,0,0" VerticalAlignment="Top" Width="75" Click="btn_connect_Click" />
+
+    </Grid>
+</Window>
