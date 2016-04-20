@@ -177,12 +177,12 @@ namespace MCHDAL
         /// <param name="model">实体对象</param>
         /// <param name="tablename">表名</param>
         /// <returns></returns>
-        public string SelectSQLStr<T>(T model, string tableName)
+        public static string SelectSQLStr<T>(T model, string tableName)
         {
             
 
             string where = " where ";
-
+            bool flag = false;
             PropertyInfo[] propertys = model.GetType().GetProperties();
             foreach(PropertyInfo pi in propertys)
             {
@@ -195,12 +195,14 @@ namespace MCHDAL
                     {
                         if (Int32.Parse(value.ToString()) != 0)
                         {
-                            where = where + pi.Name + "=" + Int32.Parse(value.ToString()) + ",";                                
+                            where = where + pi.Name + "=" + Int32.Parse(value.ToString()) + ",";
+                            flag = true;                               
                         }
                     }
                     else
                     {
                         where = where + pi.Name + '=' + "'" + value.ToString() + '\'' + ',';
+                        flag = true;
                     }
 
 
@@ -209,8 +211,14 @@ namespace MCHDAL
 
             where = where.Substring(0, where.Length - 1);
 
-            string sqlStr = "SELECT * FROM " + tableName + where;
-            return sqlStr;
+            if (flag)
+            {
+                return "SELECT * FROM " + tableName + where;
+            }
+            else
+            {
+                return "SELECT * FROM " + tableName;
+            }
         }
 
     }

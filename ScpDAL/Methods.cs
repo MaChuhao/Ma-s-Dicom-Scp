@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScpModel;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace MCHDAL
 {
@@ -11,7 +12,7 @@ namespace MCHDAL
     {
         TransToModel ttm = new TransToModel();
 
-        public int Save<T>(T model, string tableName) where T : new()
+        public Int32 Save<T>(T model, string tableName) where T : new()
         {
             string sqlStr = CreateSQLStr.SaveSQLStr<T>(model, tableName);
 
@@ -24,9 +25,51 @@ namespace MCHDAL
             }
         }
 
-        public List<Pathmodel> GetPath()
+        public int Update<T>(T model, string tableName) where T : new()
         {
-            return ttm.GetList<Pathmodel>("Select * from tb_path");
+            string sqlStr = CreateSQLStr.UpdateSQLStr<T>(model, tableName);
+            if (sqlStr.Equals("false"))
+            {
+                return 0;
+            }
+            else
+            {
+                using (SqlCommand sc = new SqlCommand(sqlStr, DBHelper.conn))
+                {
+                    DBHelper.conn.Open();
+                    int result = sc.ExecuteNonQuery();
+                    DBHelper.conn.Close();
+                    return result;
+                }
+            }
+            
+        }
+
+        public int Delete<T>(T model, string tableName) where T : new()
+        {
+            string sqlStr = CreateSQLStr.DeleteSQLStr<T>(model, tableName);
+            if (sqlStr.Equals("false"))
+            {
+                return 0;
+            }
+            else
+            {
+                using (SqlCommand sc = new SqlCommand(sqlStr, DBHelper.conn))
+                {
+                    DBHelper.conn.Open();
+                    int result = sc.ExecuteNonQuery();
+                    DBHelper.conn.Close();
+                    return result;
+                }
+            }
+
+        }
+
+        public List<T> GetList<T>(T model, string tableName) where T : new()
+        {
+            string sqlStr = CreateSQLStr.SelectSQLStr<T>(model, tableName);
+
+            return ttm.GetList<T>(sqlStr);
         }
     }
 }

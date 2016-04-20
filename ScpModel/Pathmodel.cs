@@ -7,7 +7,7 @@ namespace ScpModel
 {
     public class Pathmodel
     {
-        public Int32 PID { get; set; }
+        public Int32 ID { get; set; }
 
         public String Path { get; set; }
     }
