@@ -3,3 +3,4 @@ C:\Users\23767\Documents\Visual Studio 2015\Projects\Scpmch\ScpModel\bin\Debug\S
 C:\Users\23767\Documents\Visual Studio 2015\Projects\Scpmch\ScpModel\obj\Debug\ScpModel.csprojResolveAssemblyReference.cache
 C:\Users\23767\Documents\Visual Studio 2015\Projects\Scpmch\ScpModel\obj\Debug\ScpModel.dll
 C:\Users\23767\Documents\Visual Studio 2015\Projects\Scpmch\ScpModel\obj\Debug\ScpModel.pdb
+C:\Users\23767\Documents\Visual Studio 2015\Projects\Scpmch\ScpModel\bin\Debug\Dicom.Core.dll

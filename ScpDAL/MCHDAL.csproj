@@ -51,12 +51,6 @@
     <Compile Include="TransToModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ScpModel\ScpModel.csproj">
-      <Project>{e3c876df-5e44-4f1a-8073-b6332757781d}</Project>
-      <Name>ScpModel</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="ConnectionStr.xml" />
   </ItemGroup>
   <ItemGroup>

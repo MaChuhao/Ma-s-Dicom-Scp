@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Dicom;
+using Dicom.Network;
 
 namespace ScpModel
 {
@@ -17,5 +19,15 @@ namespace ScpModel
 
         public String SeriesNumber { get; set; }
 
+        public DicomDataset ToDicomDataset()
+        {
+            DicomDataset dataSet = new DicomDataset();
+            dataSet.Add(DicomTag.QueryRetrieveLevel, DicomQueryRetrieveLevel.Series);
+            dataSet.Add(DicomTag.SeriesInstanceUID, SeriesInstanceUID);
+            dataSet.Add(DicomTag.Modality, Modality);
+            dataSet.Add(DicomTag.SeriesNumber, SeriesNumber);
+
+            return dataSet;
+        }
     }
 }

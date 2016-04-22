@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Dicom;
+using Dicom.Network;
 
 namespace ScpModel
 {
@@ -18,5 +20,17 @@ namespace ScpModel
         public String ContentTime { get; set; }
 
         public String PatientOrientation { get; set; }
+
+        public DicomDataset ToDicomDataset()
+        {
+            DicomDataset dataSet = new DicomDataset();
+            dataSet.Add(DicomTag.QueryRetrieveLevel, DicomQueryRetrieveLevel.Image);
+            dataSet.Add(DicomTag.InstanceNumber, InstanceNumber);
+            dataSet.Add(DicomTag.ContentDate, ContentDate);
+            dataSet.Add(DicomTag.ContentTime, ContentTime);
+            dataSet.Add(DicomTag.PatientOrientation, PatientOrientation);
+
+            return dataSet;
+        }
     }
 }

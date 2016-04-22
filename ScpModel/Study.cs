@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Dicom;
+using Dicom.Network;
 
 namespace ScpModel
 {
@@ -22,5 +24,19 @@ namespace ScpModel
         public String AccessionNumber { get; set; }
 
         public String ReferringPhysiciansName { get; set; }
+
+        public DicomDataset ToDicomDataset()
+        {
+            DicomDataset dataSet = new DicomDataset();
+            dataSet.Add(DicomTag.QueryRetrieveLevel, DicomQueryRetrieveLevel.Study);
+            dataSet.Add(DicomTag.StudyInstanceUID, StudyInstanceUID);
+            dataSet.Add(DicomTag.StudyDate, StudyDate);
+            dataSet.Add(DicomTag.StudyID, StudyID);
+            dataSet.Add(DicomTag.StudyTime, StudyTime);
+            dataSet.Add(DicomTag.AccessionNumber, AccessionNumber);
+            dataSet.Add(DicomTag.ReferringPhysicianName, ReferringPhysiciansName);
+
+            return dataSet;
+        }
     }
 }

@@ -15,8 +15,11 @@ namespace Scpmch
 {
     class PacsServer : DicomService, IDicomServiceProvider, IDicomCStoreProvider, IDicomCEchoProvider, IDicomCFindProvider, IDicomCMoveProvider, IDicomNServiceProvider
     {
+        #region
         private Methods m = new Methods();
-        
+        QRMessages qrm = new QRMessages();
+        #endregion
+
         public String StorageParh { get; set; }
         public PacsServer(Stream stream, Logger log) : base(stream, log) { }
 
@@ -42,15 +45,21 @@ namespace Scpmch
         {
 
             DicomFile dicomfile = new DicomFile(request.Dataset);
-            
-            int hash = dicomfile.GetHashCode();
-            String path = "G:/Temp/ScpDataPath/" + hash.ToString()+".dcm";
-            dicomfile.Save(path);
 
-            
-            QRMessages qrm = new QRMessages();
-            qrm.savePath(request.Dataset, path);
-            return new DicomCStoreResponse(request, DicomStatus.Success);
+            if (qrm.CheckRecive(request.Dataset))
+            {
+                int hash = dicomfile.GetHashCode();
+                String path = "G:/Temp/ScpDataPath/" + hash.ToString() + ".dcm";
+                dicomfile.Save(path);
+                qrm.savePath(request.Dataset, path);
+
+                return new DicomCStoreResponse(request, DicomStatus.Success);
+            }
+            else
+            {
+                return new DicomCStoreResponse(request, DicomStatus.ProcessingFailure);
+            }
+           
         }
 
         public IEnumerable<DicomCFindResponse> OnCFindRequest(DicomCFindRequest request)
@@ -71,28 +80,11 @@ namespace Scpmch
         private IList<DicomDataset> HandleCFindQuery(DicomCFindRequest request)
         {
 
-            IList<DicomDataset> queryResults = new List<DicomDataset>();
-
             
-            List<Pathmodel> pathmodel = m.GetList<Pathmodel>(new Pathmodel(),"tb_path");
 
-            foreach( Pathmodel p in pathmodel)
-            {
-                DicomFile dcmFile = DicomFile.Open(p.Path);
-                DicomDataset dcmDataSet = dcmFile.Dataset;
-                
+            request.Dataset.Get<String>(DicomTag.QueryRetrieveLevel);
 
-                //此段
-                DicomDataset dataSet = new DicomDataset();
-                dataSet.Add(DicomTag.QueryRetrieveLevel, dcmDataSet.Get<String>(DicomTag.QueryRetrieveLevel));
-                dataSet.Add(DicomTag.StudyInstanceUID, dcmDataSet.Get<String>(DicomTag.StudyInstanceUID));
-                dataSet.Add(DicomTag.StudyDate, dcmDataSet.Get<String>(DicomTag.StudyDate));
-                dataSet.Add(DicomTag.PatientID, dcmDataSet.Get<String>(DicomTag.PatientID));
-                dataSet.Add(DicomTag.PatientName, dcmDataSet.Get<String>(DicomTag.PatientName));
-                queryResults.Add(dataSet);
-                //此段
-            }
-            
+            IList<DicomDataset> queryResults = qrm.CFind(request.Dataset, request.Level);
 
             return queryResults;
         }

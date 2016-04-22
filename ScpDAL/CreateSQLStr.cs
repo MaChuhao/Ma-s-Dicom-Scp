@@ -195,13 +195,13 @@ namespace MCHDAL
                     {
                         if (Int32.Parse(value.ToString()) != 0)
                         {
-                            where = where + pi.Name + "=" + Int32.Parse(value.ToString()) + ",";
+                            where = where + pi.Name + "=" + Int32.Parse(value.ToString()) + " and ";
                             flag = true;                               
                         }
                     }
                     else
                     {
-                        where = where + pi.Name + '=' + "'" + value.ToString() + '\'' + ',';
+                        where = where + pi.Name + '=' + "'" + value.ToString() + '\'' +  " and ";
                         flag = true;
                     }
 
@@ -209,7 +209,7 @@ namespace MCHDAL
                 }
             }
 
-            where = where.Substring(0, where.Length - 1);
+            where = where.Substring(0, where.Length - 4);
 
             if (flag)
             {
