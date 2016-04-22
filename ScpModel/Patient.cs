@@ -29,6 +29,10 @@ namespace ScpModel
             dataSet.Add(DicomTag.PatientName, PatientName);
             dataSet.Add(DicomTag.PatientBirthDate, PatientBirthDate);
             dataSet.Add(DicomTag.PatientSex, PatientSex);
+            dataSet.Add(DicomTag.NumberOfPatientRelatedSeries, "1");
+            dataSet.Add(DicomTag.NumberOfPatientRelatedStudies, "1");
+            dataSet.Add(DicomTag.NumberOfPatientRelatedInstances, "1");
+
 
             return dataSet;
         }

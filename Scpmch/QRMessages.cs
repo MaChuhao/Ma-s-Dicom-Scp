@@ -183,5 +183,78 @@ namespace Scpmch
         
             return queryResults;
         }
+
+        public List<Pathmodel> CMove(DicomDataset ds, DicomQueryRetrieveLevel level)
+        {
+            List<Pathmodel> pathList = new List<Pathmodel>();
+
+            switch (level)
+            {
+                case DicomQueryRetrieveLevel.Patient:
+                    Patient patient = new Patient();
+                    patient.PatientBirthDate = ds.Get<string>(DicomTag.PatientBirthDate);
+                    patient.PatientID = ds.Get<string>(DicomTag.PatientID);
+                    patient.PatientName = ds.Get<string>(DicomTag.PatientName);
+                    patient.PatientSex = ds.Get<string>(DicomTag.PatientSex);
+
+                    List<Patient> pList = m.GetList<Patient>(patient, "tb_patient");
+                    foreach (Patient p in pList)
+                    {
+                        Pathmodel pathmodel = new Pathmodel();
+                        pathmodel.ID = p.PID;
+                        pathList.AddRange(m.GetList<Pathmodel>(pathmodel,"tb_path"));
+                    }
+                    break;
+                case DicomQueryRetrieveLevel.Study:
+                    Study study = new Study();
+                    study.ReferringPhysiciansName = ds.Get<string>(DicomTag.ReferringPhysicianName);
+                    study.StudyDate = ds.Get<string>(DicomTag.StudyDate);
+                    study.StudyID = ds.Get<string>(DicomTag.StudyID);
+                    study.StudyInstanceUID = ds.Get<string>(DicomTag.StudyInstanceUID);
+                    study.StudyTime = ds.Get<string>(DicomTag.StudyTime);
+                    List<Study> studyList = m.GetList<Study>(study, "tb_study");
+                    foreach (Study s in studyList)
+                    {
+                        Pathmodel pathmodel = new Pathmodel();
+                        pathmodel.ID = s.PID;
+                        pathList.AddRange(m.GetList<Pathmodel>(pathmodel, "tb_path"));
+                    }
+
+                    break;
+                case DicomQueryRetrieveLevel.Series:
+                    Series series = new Series();
+                    series.Modality = ds.Get<string>(DicomTag.Modality);
+                    series.SeriesInstanceUID = ds.Get<string>(DicomTag.SeriesInstanceUID);
+                    series.SeriesNumber = ds.Get<string>(DicomTag.SeriesNumber);
+
+                    List<Series> seriesList = m.GetList<Series>(series, "tb_series");
+                    foreach (Series s in seriesList)
+                    {
+                        Pathmodel pathmodel = new Pathmodel();
+                        pathmodel.ID = s.PID;
+                        pathList.AddRange(m.GetList<Pathmodel>(pathmodel, "tb_path"));
+                    }
+                    break;
+                case DicomQueryRetrieveLevel.Image:
+                    Image image = new Image();
+                    image.InstanceNumber = ds.Get<string>(DicomTag.InstanceNumber);
+                    image.ContentDate = ds.Get<string>(DicomTag.ContentDate);
+                    image.ContentTime = ds.Get<string>(DicomTag.ContentTime);
+                    image.PatientOrientation = ds.Get<string>(DicomTag.PatientOrientation);
+
+                    List<Image> ImageList = m.GetList<Image>(image, "tb_image");
+                    foreach (Image i in ImageList)
+                    {
+                        Pathmodel pathmodel = new Pathmodel();
+                        pathmodel.ID = i.PID;
+                        pathList.AddRange(m.GetList<Pathmodel>(pathmodel, "tb_path"));
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            return pathList;
+        }
     }
 }

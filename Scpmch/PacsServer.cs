@@ -79,11 +79,7 @@ namespace Scpmch
 
         private IList<DicomDataset> HandleCFindQuery(DicomCFindRequest request)
         {
-
             
-
-            request.Dataset.Get<String>(DicomTag.QueryRetrieveLevel);
-
             IList<DicomDataset> queryResults = qrm.CFind(request.Dataset, request.Level);
 
             return queryResults;
@@ -92,61 +88,38 @@ namespace Scpmch
         public IEnumerable<DicomCMoveResponse> OnCMoveRequest(DicomCMoveRequest request)
         {
             List<DicomCMoveResponse> response = new List<DicomCMoveResponse>();
-            List<DicomDataset> queryResults = HandleCMoveRequest(request);
+            List<Pathmodel> pathList = qrm.CMove(request.Dataset, request.Level);
             DicomClient cstoreClient = new DicomClient();
 
-            var studyUid = request.Dataset.Get<string>(DicomTag.StudyInstanceUID);
-            var instUid = request.Dataset.Get<string>(DicomTag.SOPInstanceUID);
-
-            //try
-            //{
-            //    List<PathModel> pathmodel =  mysqlhealper.GetDataByStudyInstanceUid(studyUid);
-            //    if(pathmodel.Count != 0)
-            //    {
-            //        String path = pathmodel[0].Path;
-                    
-                   
-            //        DicomCStoreRequest cstorerq = new DicomCStoreRequest(path);
-            //        cstorerq.OnResponseReceived = (rq, rs) =>
-            //        {
-            //            if (rs.Status == DicomStatus.Success)
-            //            {
-            //                DicomCMoveResponse rsp = new DicomCMoveResponse(request, DicomStatus.Pending);
-            //                SendResponse(rsp);
-            //            }
-
-            //        };
-            //        cstoreClient.AddRequest(cstorerq);
-            //        cstoreClient.Send("127.0.0.1", 5104, false, this.Association.CalledAE, request.DestinationAE);
-                   
-            //    }
-                
-
-            //}
-            //catch 
-            //{
-            //    DicomCMoveResponse rs = new DicomCMoveResponse(request, DicomStatus.StorageStorageOutOfResources);
-            //    response.Add(rs);
-            //    return response;
-            //}
-
-            response.Add(new DicomCMoveResponse(request, DicomStatus.Success));
-            return response;
-        }
-
-        private List<DicomDataset> HandleCMoveRequest(DicomCMoveRequest request)
-        {
-            foreach (var item in request.Dataset)
+            try
             {
-                Console.WriteLine(item);
-            }
-            Console.WriteLine(request.Dataset);
-            Console.WriteLine(request.Dataset.Get<string>(DicomTag.StudyInstanceUID));
-            Console.WriteLine(request.Dataset.Get<string>(DicomTag.QueryRetrieveLevel));
+                foreach (Pathmodel p in pathList)
+                {
+                    DicomCStoreRequest cstorerq = new DicomCStoreRequest(p.Path);
+                    cstorerq.OnResponseReceived = (rq, rs) =>
+                    {
+                        if (rs.Status == DicomStatus.Success)
+                        {
+                            DicomCMoveResponse rsp = new DicomCMoveResponse(request, DicomStatus.Pending);
+                            SendResponse(rsp);
+                        }
 
-            var queryResults = new List<DicomDataset>();
-            return queryResults;
+                    };
+                    cstoreClient.AddRequest(cstorerq);
+                    cstoreClient.Send("127.0.0.1", 2122, false, this.Association.CalledAE, request.DestinationAE);
+                }
+                return response;
+            }
+            catch
+            {
+                DicomCMoveResponse rs = new DicomCMoveResponse(request, DicomStatus.StorageStorageOutOfResources);
+                response.Add(rs);
+                return response;
+            }
+
+
         }
+
 
         public void OnCStoreRequestException(string tempFileName, Exception e)
         {
