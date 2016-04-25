@@ -51,9 +51,6 @@
     <Compile Include="TransToModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ConnectionStr.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

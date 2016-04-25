@@ -82,20 +82,6 @@ namespace Scpmch
 
             IList<DicomDataset> queryResults = qrm.CFind(request.Dataset, request.Level);
 
-            //IList<DicomDataset> queryResults = new List<DicomDataset>();
-
-            //DicomFile dcmFile = DicomFile.Open("G:/Temp/ScpDataPath/2061578.dcm");
-            //DicomDataset dcmDataSet = dcmFile.Dataset;
-
-            ////此段
-            //DicomDataset dataSet = new DicomDataset();
-            //dataSet.Add(DicomTag.QueryRetrieveLevel, "STUDY");
-            //dataSet.Add(DicomTag.StudyInstanceUID, dcmDataSet.Get<String>(DicomTag.StudyInstanceUID));
-            //dataSet.Add(DicomTag.StudyDate, dcmDataSet.Get<String>(DicomTag.StudyDate));
-            //dataSet.Add(DicomTag.PatientID, dcmDataSet.Get<String>(DicomTag.PatientID));
-            //dataSet.Add(DicomTag.PatientName, dcmDataSet.Get<String>(DicomTag.PatientName));
-            //queryResults.Add(dataSet);
-
             return queryResults;
         }
 
@@ -120,7 +106,7 @@ namespace Scpmch
 
                     };
                     cstoreClient.AddRequest(cstorerq);
-                    cstoreClient.Send("127.0.0.1", 2122, false, this.Association.CalledAE, request.DestinationAE);
+                    cstoreClient.Send("127.0.0.1", 2222, false, this.Association.CalledAE, request.DestinationAE);
                 }
                 return response;
             }

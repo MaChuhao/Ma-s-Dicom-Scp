@@ -36,8 +36,7 @@ namespace ScpModel
             dataSet.Add(DicomTag.StudyTime, StudyTime);
             dataSet.Add(DicomTag.AccessionNumber, AccessionNumber);
             dataSet.Add(DicomTag.ReferringPhysicianName, ReferringPhysiciansName);
-            //dataSet.Add(DicomTag.PatientID, "GE0514");
-            //dataSet.Add(DicomTag.PatientName, "HUANG^PETER");
+            
 
             return dataSet;
         }
