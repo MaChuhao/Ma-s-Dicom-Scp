@@ -24,7 +24,7 @@ namespace ScpModel
         public DicomDataset ToDicomDataset()
         {
             DicomDataset dataSet = new DicomDataset();
-            dataSet.Add(DicomTag.QueryRetrieveLevel, DicomQueryRetrieveLevel.Image);
+            dataSet.Add(DicomTag.QueryRetrieveLevel, "IMAGE");
             dataSet.Add(DicomTag.InstanceNumber, InstanceNumber);
             dataSet.Add(DicomTag.ContentDate, ContentDate);
             dataSet.Add(DicomTag.ContentTime, ContentTime);

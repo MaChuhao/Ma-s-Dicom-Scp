@@ -22,7 +22,7 @@ namespace ScpModel
         public DicomDataset ToDicomDataset()
         {
             DicomDataset dataSet = new DicomDataset();
-            dataSet.Add(DicomTag.QueryRetrieveLevel, DicomQueryRetrieveLevel.Series);
+            dataSet.Add(DicomTag.QueryRetrieveLevel, "SERIES");
             dataSet.Add(DicomTag.SeriesInstanceUID, SeriesInstanceUID);
             dataSet.Add(DicomTag.Modality, Modality);
             dataSet.Add(DicomTag.SeriesNumber, SeriesNumber);

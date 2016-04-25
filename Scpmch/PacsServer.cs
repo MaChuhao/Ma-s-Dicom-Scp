@@ -67,7 +67,7 @@ namespace Scpmch
             List<DicomCFindResponse> responses = new List<DicomCFindResponse>();
             IList<DicomDataset> queryResults = HandleCFindQuery(request);
 
-            foreach (var item in queryResults)
+            foreach (DicomDataset item in queryResults)
             {
                 DicomCFindResponse response = new DicomCFindResponse(request, DicomStatus.Pending);
                 response.Dataset = item;
@@ -79,8 +79,22 @@ namespace Scpmch
 
         private IList<DicomDataset> HandleCFindQuery(DicomCFindRequest request)
         {
-            
+
             IList<DicomDataset> queryResults = qrm.CFind(request.Dataset, request.Level);
+
+            //IList<DicomDataset> queryResults = new List<DicomDataset>();
+
+            //DicomFile dcmFile = DicomFile.Open("G:/Temp/ScpDataPath/2061578.dcm");
+            //DicomDataset dcmDataSet = dcmFile.Dataset;
+
+            ////此段
+            //DicomDataset dataSet = new DicomDataset();
+            //dataSet.Add(DicomTag.QueryRetrieveLevel, "STUDY");
+            //dataSet.Add(DicomTag.StudyInstanceUID, dcmDataSet.Get<String>(DicomTag.StudyInstanceUID));
+            //dataSet.Add(DicomTag.StudyDate, dcmDataSet.Get<String>(DicomTag.StudyDate));
+            //dataSet.Add(DicomTag.PatientID, dcmDataSet.Get<String>(DicomTag.PatientID));
+            //dataSet.Add(DicomTag.PatientName, dcmDataSet.Get<String>(DicomTag.PatientName));
+            //queryResults.Add(dataSet);
 
             return queryResults;
         }

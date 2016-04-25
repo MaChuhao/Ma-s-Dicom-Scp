@@ -28,13 +28,16 @@ namespace ScpModel
         public DicomDataset ToDicomDataset()
         {
             DicomDataset dataSet = new DicomDataset();
-            dataSet.Add(DicomTag.QueryRetrieveLevel, DicomQueryRetrieveLevel.Study);
+            //此处该框架有一bug，STUDY和PATIENT标识必须要大写！！！！！！！！！！！！
+            dataSet.Add(DicomTag.QueryRetrieveLevel, "STUDY");
             dataSet.Add(DicomTag.StudyInstanceUID, StudyInstanceUID);
             dataSet.Add(DicomTag.StudyDate, StudyDate);
             dataSet.Add(DicomTag.StudyID, StudyID);
             dataSet.Add(DicomTag.StudyTime, StudyTime);
             dataSet.Add(DicomTag.AccessionNumber, AccessionNumber);
             dataSet.Add(DicomTag.ReferringPhysicianName, ReferringPhysiciansName);
+            //dataSet.Add(DicomTag.PatientID, "GE0514");
+            //dataSet.Add(DicomTag.PatientName, "HUANG^PETER");
 
             return dataSet;
         }

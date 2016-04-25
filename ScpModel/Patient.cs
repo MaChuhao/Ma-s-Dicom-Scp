@@ -24,14 +24,12 @@ namespace ScpModel
         public DicomDataset ToDicomDataset()
         {
             DicomDataset dataSet = new DicomDataset();
-            dataSet.Add(DicomTag.QueryRetrieveLevel, DicomQueryRetrieveLevel.Patient);
+            dataSet.Add(DicomTag.QueryRetrieveLevel, "PATIENT");
             dataSet.Add(DicomTag.PatientID, PatientID);
             dataSet.Add(DicomTag.PatientName, PatientName);
             dataSet.Add(DicomTag.PatientBirthDate, PatientBirthDate);
             dataSet.Add(DicomTag.PatientSex, PatientSex);
-            dataSet.Add(DicomTag.NumberOfPatientRelatedSeries, "1");
-            dataSet.Add(DicomTag.NumberOfPatientRelatedStudies, "1");
-            dataSet.Add(DicomTag.NumberOfPatientRelatedInstances, "1");
+
 
 
             return dataSet;
